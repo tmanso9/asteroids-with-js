@@ -9,7 +9,7 @@ const ctx = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
-function drawBackground(){
+function drawBackground() {
 	ctx.fillStyle = 'black'
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
@@ -44,26 +44,29 @@ const keys = {
 
 const SPEED = 2
 const ROTATION_SPEED = 0.03
+const FRICTION = 0.98
 
 const animate = () => {
 	window.requestAnimationFrame(animate)
 	drawBackground()
 	player.update()
 
-	player.velocity.x = 0
-	player.velocity.y = 0
-	
 	if (keys.w.pressed) {
 		player.velocity.x = Math.cos(player.rotation) * SPEED
 		player.velocity.y = Math.sin(player.rotation) * SPEED
+	} else {
+		player.velocity.x *= FRICTION
+		player.velocity.y *= FRICTION
 	}
 	if (keys.s.pressed) {
 		player.velocity.x = -Math.cos(player.rotation) * SPEED
 		player.velocity.y = -Math.sin(player.rotation) * SPEED
+	} else {
+		player.velocity.x *= FRICTION
+		player.velocity.y *= FRICTION
 	}
 	if (keys.d.pressed) player.rotation += ROTATION_SPEED
 	if (keys.a.pressed) player.rotation -= ROTATION_SPEED
-
 }
 
 animate()
