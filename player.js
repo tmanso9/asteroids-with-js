@@ -5,13 +5,20 @@ export class Player {
 		this.position = position
 		this.velocity = velocity
 		this.color = color
+		this.rotation = 0
 	}
 
 	draw() {
+		this.ctx.save()
+
 		// // Check center with a circle
 		// this.ctx.arc(this.position.x, this.position.y, 3, 0, Math.PI * 2)
 		// this.ctx.fillStyle = 'red'
 		// this.ctx.fill()
+
+		this.ctx.translate(this.position.x, this.position.y)
+		this.ctx.rotate(this.rotation)
+		this.ctx.translate(-this.position.x, -this.position.y)
 
 		this.ctx.beginPath()
 		this.ctx.moveTo(this.position.x + 30, this.position.y)
@@ -21,6 +28,8 @@ export class Player {
 
 		this.ctx.strokeStyle = this.color
 		this.ctx.stroke()
+
+		this.ctx.restore()
 	}
 
 	update() {

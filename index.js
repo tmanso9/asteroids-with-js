@@ -34,10 +34,16 @@ const keys = {
 	w: {
 		pressed: false
 	},
+	s: {
+		pressed: false
+	},
 	d: {
 		pressed: false
 	}
 }
+
+const SPEED = 2
+const ROTATION_SPEED = 0.03
 
 const animate = () => {
 	window.requestAnimationFrame(animate)
@@ -47,9 +53,16 @@ const animate = () => {
 	player.velocity.x = 0
 	player.velocity.y = 0
 	
-	if (keys.w.pressed) player.velocity.x = 1
-	if (keys.d.pressed) player.velocity.y = 1
-	if (keys.a.pressed) player.velocity.y = -1
+	if (keys.w.pressed) {
+		player.velocity.x = Math.cos(player.rotation) * SPEED
+		player.velocity.y = Math.sin(player.rotation) * SPEED
+	}
+	if (keys.s.pressed) {
+		player.velocity.x = -Math.cos(player.rotation) * SPEED
+		player.velocity.y = -Math.sin(player.rotation) * SPEED
+	}
+	if (keys.d.pressed) player.rotation += ROTATION_SPEED
+	if (keys.a.pressed) player.rotation -= ROTATION_SPEED
 
 }
 
@@ -66,6 +79,9 @@ window.addEventListener('keydown', (e) => {
 		case 'KeyW':
 			keys.w.pressed = true
 			break
+		case 'KeyS':
+			keys.s.pressed = true
+			break
 	}
 })
 
@@ -79,6 +95,9 @@ window.addEventListener('keyup', (e) => {
 			break
 		case 'KeyW':
 			keys.w.pressed = false
+			break
+		case 'KeyS':
+			keys.s.pressed = false
 			break
 	}
 })
