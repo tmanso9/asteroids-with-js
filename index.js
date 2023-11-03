@@ -1,4 +1,4 @@
-import { circleCollision } from "./scripts/collisions/circle.js"
+import { circleCollision, circleTriangleCollision } from "./scripts/collisions/index.js"
 import { Player, Projectile, Asteroid } from "./scripts/objects/index.js"
 
 // Set canvas and context variables
@@ -51,7 +51,7 @@ const ROTATION_SPEED = 0.03
 const PROJECTILE_SPEED = SPEED * 1.2
 const FRICTION = 0.98
 
-window.setInterval(() => {
+const intervalId = window.setInterval(() => {
 	const index = Math.floor(Math.random() * 4)
 	let x, y, vx, vy
 	const radius = 50 * Math.random() + 10
@@ -100,11 +100,12 @@ window.setInterval(() => {
 			radius
 		})
 	)
+	console.log(asteroids)
 
 }, 3000)
 
 const animate = () => {
-	window.requestAnimationFrame(animate)
+	const animationId = window.requestAnimationFrame(animate)
 	drawBackground()
 	player.update()
 
@@ -129,6 +130,12 @@ const animate = () => {
 	for (let i = asteroids.length - 1; i >= 0; i--) {
 		const asteroid = asteroids[i]
 		asteroid.update()
+
+		if (circleTriangleCollision(asteroid, player.getVertices())) {
+			console.log('GAME OVER')
+			window.cancelAnimationFrame(animationId)
+			window.clearInterval(intervalId)
+		}
 
 		if (
 			asteroid.position.x + asteroid.radius < 0 ||
