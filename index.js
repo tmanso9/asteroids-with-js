@@ -1,6 +1,5 @@
-import { Player } from './scripts/player.js'
-import { Projectile } from './scripts/projectile.js'
-import { Asteroid } from './scripts/asteroid.js'
+import { circleCollision } from "./scripts/collisions/circle.js"
+import { Player, Projectile, Asteroid } from "./scripts/objects/index.js"
 
 // Set canvas and context variables
 const canvas = document.querySelector('#myCanvas')
@@ -138,6 +137,17 @@ const animate = () => {
 			asteroid.position.y + asteroid.radius < 0
 		) {
 			asteroids.splice(i, 1)
+		}
+
+		for (let j = projectiles.length - 1; j >= 0; j--) {
+			const projectile = projectiles[j]
+			if (circleCollision(projectile, asteroid)) {
+				projectiles.splice(j, 1)
+				if (asteroid.radius < 45)
+					asteroids.splice(i, 1)
+				else
+					asteroid.radius -= 10
+			}
 		}
 	}
 
