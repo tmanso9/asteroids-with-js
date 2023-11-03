@@ -1,4 +1,6 @@
-# Project Title
+# Asteroids with Vanilla JS
+
+![Screenshot of the game](/assets/sreenshot.jpg)
 
 ## Table of Contents
 
@@ -13,8 +15,8 @@ Minimal Asteroids game built with Vanilla JS following a [Net Ninja / Chris Lis 
 
 Clone repository and lauch a live server (for example with [this VSCode extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)).
 
-To play:
-	- Move: WASD
-	- Shoot: Spacebar
+To play:__
+	- Move: WASD__
+	- Shoot: Spacebar__
 
 Have fun :)
