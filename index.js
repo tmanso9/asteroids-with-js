@@ -1,5 +1,6 @@
 import { Player } from './scripts/player.js'
 import { Projectile } from './scripts/projectile.js'
+import { Asteroid } from './scripts/asteroid.js'
 
 // Set canvas and context variables
 const canvas = document.querySelector('#myCanvas')
@@ -44,11 +45,64 @@ const keys = {
 }
 
 const projectiles = []
+const asteroids = []
 
 const SPEED = 2
 const ROTATION_SPEED = 0.03
 const PROJECTILE_SPEED = SPEED * 1.2
 const FRICTION = 0.98
+
+window.setInterval(() => {
+	const index = Math.floor(Math.random() * 4)
+	let x, y, vx, vy
+	const radius = 50 * Math.random() + 10
+
+	switch (index) {
+		// left side of the screen
+		case 0:
+			x = 0 - radius
+			y = Math.random() * canvas.height
+			vx = 1
+			vy = 0
+			break
+		// right side of the screen
+		case 1:
+			x = canvas.width + radius
+			y = Math.random() * canvas.height
+			vx = -1
+			vy = 0
+			break
+		// top of the screen
+		case 2:
+			x = Math.random() * canvas.width
+			y = 0 - radius
+			vx = 0
+			vy = 1
+			break
+		//bottom of the screen
+		case 3:
+			x = Math.random() * canvas.width
+			y = canvas.height + radius
+			vx = 0
+			vy = -1
+			break
+	}
+	asteroids.push(
+		new Asteroid({
+			position: {
+				x: x,
+				y: y
+			},
+			velocity: {
+				x: vx,
+				y: vy
+			},
+			ctx,
+			radius
+		})
+	)
+
+}, 3000)
 
 const animate = () => {
 	window.requestAnimationFrame(animate)
@@ -70,6 +124,20 @@ const animate = () => {
 			projectile.position.y + projectile.radius < 0
 		) {
 			projectiles.splice(i, 1)
+		}
+	}
+
+	for (let i = asteroids.length - 1; i >= 0; i--) {
+		const asteroid = asteroids[i]
+		asteroid.update()
+
+		if (
+			asteroid.position.x + asteroid.radius < 0 ||
+			asteroid.position.x - asteroid.radius > canvas.width ||
+			asteroid.position.y - asteroid.radius > canvas.height ||
+			asteroid.position.y + asteroid.radius < 0
+		) {
+			asteroids.splice(i, 1)
 		}
 	}
 

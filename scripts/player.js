@@ -12,9 +12,11 @@ export class Player {
 		this.ctx.save()
 
 		// // Check center with a circle
+		// this.ctx.beginPath()
 		// this.ctx.arc(this.position.x, this.position.y, 3, 0, Math.PI * 2)
 		// this.ctx.fillStyle = 'red'
 		// this.ctx.fill()
+		// this.ctx.closePath()
 
 		this.ctx.translate(this.position.x, this.position.y)
 		this.ctx.rotate(this.rotation)
